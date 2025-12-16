@@ -1,0 +1,17 @@
+name: GitHub Action Test
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Verify GitHub Action setup
+        run: echo "GitHub Action setup works correctly"
