@@ -22,14 +22,14 @@ jobs:
           java-version: '11'
 
       - name: Build and test with Maven
-        run: mvn -B test
+        run: mvn -B test jacoco:report
 
       - name: Get back-end coverage report
         uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: back-end-coverage
-          path: target/site/jacoco/
+          path: target/site/jacoco/jacoco.xml
 
   front-end-tests:
     runs-on: ubuntu-latest
@@ -55,4 +55,4 @@ jobs:
         if: success() || failure()
         with:
           name: front-end-coverage
-          path: coverage/bobapp/
+          path: coverage/bobapp/junit-test-report.xml
