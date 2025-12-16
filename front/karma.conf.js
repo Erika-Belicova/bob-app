@@ -37,7 +37,7 @@ module.exports = function (config) {
     junitReporter: {
       outputDir: require('path').join(__dirname, './coverage/bobapp'), // path to save XML
       outputFile: 'junit-test-report.xml', // output file name
-      useBrowserName: true
+      useBrowserName: false
     },
     reporters: ['progress', 'kjhtml', 'junit'],
     port: 9876,
