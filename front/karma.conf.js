@@ -10,6 +10,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
+      require('karma-junit-reporter'), // needed for xml report config
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
@@ -29,16 +30,22 @@ module.exports = function (config) {
       subdir: '.',
       reporters: [
         { type: 'html' },
-        { type: 'text-summary' }
+        { type: 'text-summary' },
+        { type: 'lcov' } // needed for Sonar
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    junitReporter: {
+      outputDir: require('path').join(__dirname, './coverage/bobapp'), // path to save XML
+      outputFile: 'junit-test-report.xml', // output file name
+      useBrowserName: false
+    },
+    reporters: ['progress', 'kjhtml', 'junit'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false,
-    restartOnFileChange: true
+    autoWatch: false, // watch disabled for CI
+    browsers: ['ChromeHeadless'],
+    singleRun: true, // needed for CI
+    restartOnFileChange: false
   });
 };
