@@ -21,15 +21,15 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Build and test with Maven
+      - name: Build and run back-end tests with Maven
         run: mvn -B test jacoco:report
 
       - name: Get back-end coverage report
         uses: actions/upload-artifact@v4
-        if: success() || failure()
+        if: success()
         with:
           name: back-end-coverage
-          path: back/target/site/jacoco/jacoco.xml
+          path: back/target/site/jacoco
 
   front-end-tests:
     runs-on: ubuntu-latest
@@ -37,22 +37,23 @@ jobs:
       run:
         working-directory: front
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+
+      - name: Use Node.js 16
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run test:prod
+          node-version: '16'
+      
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run front-end tests
+        run: npm run test:prod
 
       - name: Get front-end coverage report
         uses: actions/upload-artifact@v4
-        if: success() || failure()
+        if: success()
         with:
           name: front-end-coverage
-          path: front/coverage/bobapp/junit-test-report.xml
+          path: front/coverage/bobapp
