@@ -80,7 +80,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          projectBaseDir: .
+          projectBaseDir: back
           args: -Dsonar.qualitygate.wait=true
           
   front-end-sonar:
@@ -104,5 +104,5 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          projectBaseDir: .
+          projectBaseDir: front
           args: -Dsonar.qualitygate.wait=true
