@@ -76,7 +76,7 @@ jobs:
           java-version: '11'
 
       - name: SonarCloud scan back-end
-        uses: SonarSource/sonarqube-scan-action@a31c939
+        uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -100,7 +100,7 @@ jobs:
           node-version: '16'
 
       - name: SonarCloud scan front-end
-        uses: SonarSource/sonarqube-scan-action@a31c939
+        uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
