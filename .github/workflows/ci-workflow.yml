@@ -77,3 +77,59 @@ jobs:
         with:
           projectBaseDir: front
           args: -Dsonar.qualitygate.wait=true
+  
+  back-end-docker:
+    runs-on: ubuntu-latest
+    needs: back-end-check
+    defaults:
+      run:
+        working-directory: back
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build back-end Docker image
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-back:${{ github.sha }} .
+
+      - name: Push back-end Docker image
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-back:${{ github.sha }}
+      
+      - name: Tag as latest
+        run: docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-back:${{ github.sha }} ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-back:latest
+
+      - name: Push latest tag
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-back:latest
+  
+  front-end-docker:
+    runs-on: ubuntu-latest
+    needs: front-end-check
+    defaults:
+      run:
+        working-directory: front
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build front-end Docker image
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-front:${{ github.sha }} .
+
+      - name: Push front-end Docker image
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-front:${{ github.sha }}
+      
+      - name: Tag as latest
+        run: docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-front:${{ github.sha }} ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-front:latest
+
+      - name: Push latest tag
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/bobapp-front:latest
