@@ -1,4 +1,4 @@
-name: CI workflow
+name: CI/CD workflow
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  back-end-check:
+  back-end-tests-sonar:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -41,7 +41,7 @@ jobs:
           projectBaseDir: back
           args: -Dsonar.qualitygate.wait=true
 
-  front-end-check:
+  front-end-tests-sonar:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -80,7 +80,7 @@ jobs:
   
   back-end-docker:
     runs-on: ubuntu-latest
-    needs: back-end-check
+    needs: back-end-tests-sonar
     defaults:
       run:
         working-directory: back
@@ -108,7 +108,7 @@ jobs:
   
   front-end-docker:
     runs-on: ubuntu-latest
-    needs: front-end-check
+    needs: front-end-tests-sonar
     defaults:
       run:
         working-directory: front
