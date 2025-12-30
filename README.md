@@ -7,14 +7,20 @@
 
 ## Table of Contents
 
-1. [Prerequisites](#1-prerequisites)
-2. [Clone the Project](#2-clone-the-project)
-3. [Back-End Setup](#3-back-end-setup)
-4. [Front-End Setup](#4-front-end-setup)
-5. [Docker Containers](#5-docker-containers)
-6. [CI/CD Workflow Overview](#6-cicd-workflow-overview)
-7. [KPIs and Quality Gates](#7-kpis-and-quality-gates)
-8. [Troubleshooting](#8-troubleshooting)
+- [BobApp](#bobapp)
+  - [Table of Contents](#table-of-contents)
+  - [1. Prerequisites](#1-prerequisites)
+  - [2. Clone the Project](#2-clone-the-project)
+  - [3. Back-End Setup](#3-back-end-setup)
+    - [Run Back-End Tests and Generate Coverage](#run-back-end-tests-and-generate-coverage)
+  - [4. Front-End Setup](#4-front-end-setup)
+    - [Run Front-End Tests and Generate Coverage](#run-front-end-tests-and-generate-coverage)
+  - [5. Docker Containers](#5-docker-containers)
+    - [Back-End Docker](#back-end-docker)
+    - [Front-End Docker](#front-end-docker)
+  - [6. CI/CD Workflow Overview](#6-cicd-workflow-overview)
+  - [7. KPIs and Quality Gates](#7-kpis-and-quality-gates)
+  - [8. Troubleshooting](#8-troubleshooting)
 
 ---
 
@@ -34,6 +40,7 @@ Make sure the following tools are installed:
 ## 2. Clone the Project
 
 Clone the repository:
+
 ```
 git clone https://github.com/Erika-Belicova/bob-app.git
 cd bob-app
@@ -49,16 +56,19 @@ The repository contains two main folders:
 ## 3. Back-End Setup
 
 Navigate to the back-end folder:
+
 ```
 cd back
 ```
 
 Install dependencies:
+
 ```
 mvn clean install
 ```
 
 Run the back-end:
+
 ```
 mvn spring-boot:run
 ```
@@ -66,28 +76,32 @@ mvn spring-boot:run
 The API will be available at `http://localhost:8080` by default.  
 
 ### Run Back-End Tests and Generate Coverage
+
 ```
 mvn clean verify
 ```
 
 - Coverage reports are generated in: `back/target/site/jacoco`  
-- **CI/CD:** These reports are automatically uploaded as artifacts in the GitHub Actions workflow after successful test runs. 
+- **CI/CD:** These reports are automatically uploaded as artifacts in the GitHub Actions workflow after successful test runs.
 
 ---
 
 ## 4. Front-End Setup
 
 Navigate to the front-end folder:
+
 ```
 cd front
 ```
 
 Install dependencies:
+
 ```
 npm ci
 ```
 
 Run the front-end application:
+
 ```
 npm run start
 ```
@@ -95,12 +109,13 @@ npm run start
 The Angular app will be available at `http://localhost:4200`.  
 
 ### Run Front-End Tests and Generate Coverage
+
 ```
 npm run test:prod
 ```
 
 - Coverage reports are generated in: `front/coverage/bobapp`  
-- **CI/CD:** These reports are automatically uploaded as artifacts in the GitHub Actions workflow after successful test runs. 
+- **CI/CD:** These reports are automatically uploaded as artifacts in the GitHub Actions workflow after successful test runs.
 
 ---
 
@@ -118,12 +133,13 @@ Before running the back-end container:
 
 1. Make sure the CI/CD workflow has run at least once so the Docker images have been pushed to the provided Docker Hub account.
 2. Pull and run the container:
-   
+
 ```
 cd back
 docker pull <DOCKER_HUB_USERNAME>/bobapp-back:latest
 docker run -p 8080:8080 --name bobapp-back -d <DOCKER_HUB_USERNAME>/bobapp-back:latest
 ```
+
 The API will be available at `http://localhost:8080`.
 
 ### Front-End Docker
@@ -139,7 +155,7 @@ docker run -p 4200:80 --name bobapp-front -d <DOCKER_HUB_USERNAME>/bobapp-front:
 
 The Angular app will be available at `http://localhost:4200`.
 
-> **Note:** The `<DOCKER_HUB_USERNAME>` placeholder should be replaced with the Docker Hub account used in the repository secrets. 
+> **Note:** The `<DOCKER_HUB_USERNAME>` placeholder should be replaced with the Docker Hub account used in the repository secrets.
 
 ---
 
