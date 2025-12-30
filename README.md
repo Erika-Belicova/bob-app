@@ -33,7 +33,7 @@ Make sure the following tools are installed:
 
 ## 2. Clone the Project
 
-Clone your the repository:
+Clone the repository:
 ```
 git clone https://github.com/Erika-Belicova/bob-app.git
 cd bob-app
@@ -106,23 +106,40 @@ npm run test:prod
 
 ## 5. Docker Containers
 
-Both back-end and front-end can be built and run as Docker containers.
+Both the back-end and front-end can be run as Docker containers.
+
+The CI/CD workflow automatically builds the Docker images and pushes them to Docker Hub (with both the SHA tag and `latest` tag). It uses the Docker Hub credentials provided in the repository secrets.
+
+> **Important**: Ensure the CI/CD workflow has successfully run at least once by pushing a commit or creating a pull request to the `main` branch. This will build and push the back-end and front-end Docker images to the provided Docker Hub account. After that, they can be pulled and run locally.
 
 ### Back-End Docker
+
+Before running the back-end container:
+
+1. Make sure the CI/CD workflow has run at least once so the Docker images have been pushed to the provided Docker Hub account.
+2. Pull and run the container:
+   
 ```
 cd back
-docker build -t bobapp-back:latest .
-docker run -p 8080:8080 --name bobapp-back -d bobapp-back:latest
+docker pull <DOCKER_HUB_USERNAME>/bobapp-back:latest
+docker run -p 8080:8080 --name bobapp-back -d <DOCKER_HUB_USERNAME>/bobapp-back:latest
 ```
+The API will be available at `http://localhost:8080`.
 
 ### Front-End Docker
+
+1. Ensure the Docker images have been pushed to the provided Docker Hub account.
+2. Pull and run the container:
+
 ```
 cd front
-docker build -t bobapp-front:latest .
-docker run -p 4200:4200 --name bobapp-front -d bobapp-front:latest
+docker pull <DOCKER_HUB_USERNAME>/bobapp-front:latest
+docker run -p 4200:80 --name bobapp-front -d <DOCKER_HUB_USERNAME>/bobapp-front:latest
 ```
 
-**Note:** The CI/CD workflow builds and pushes these images automatically to Docker Hub with both the SHA tag and `latest` tag.  
+The Angular app will be available at `http://localhost:4200`.
+
+> **Note:** The `<DOCKER_HUB_USERNAME>` placeholder should be replaced with the Docker Hub account used in the repository secrets. 
 
 ---
 
